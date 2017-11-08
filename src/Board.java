@@ -1,4 +1,4 @@
-
+//Tim
 public class Board {
 	// INSTANCE VARIABLES
 	// 2D array representing the board

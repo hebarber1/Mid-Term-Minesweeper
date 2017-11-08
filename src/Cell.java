@@ -1,4 +1,4 @@
-
+//Herman
 public class Cell {
 	// INSTANCE VARIABLES
 	// boolean isCovered
