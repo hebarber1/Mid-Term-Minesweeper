@@ -10,9 +10,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		final int BEG_BOARD = 5;
-		final int INT_BOARD = 10;
-		final int ADV_BOARD = 15;
 		boolean keepGoing = true;
 
 		System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
@@ -25,21 +22,8 @@ public class Main {
 			System.out.println("2. Intermediate ");
 			int level = Validator.getInt(scan, "3. Advanced ", 1, 3);
 
-			// Determine the board size according to level selected by the user.
-			int boardSize = 0;
-
-			if (level == 1) {
-				boardSize = BEG_BOARD;
-			} else if (level == 2) {
-				boardSize = INT_BOARD;
-			} else {
-				boardSize = ADV_BOARD;
-			}
-
-			System.out.println("The size of the board will be: " + boardSize + "\n"); // TOFIX Get rid of this line
-
 			// Create the board
-			Board mineBoard = new Board(); // TOFIX Specify board size
+			Board mineBoard = new Board(level); // TOFIX Specify board size
 
 			// Call Board.generateBoard()
 
