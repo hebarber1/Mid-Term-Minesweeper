@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Validator
@@ -91,4 +92,35 @@ public class Validator
         }
         return d;
     }
+
+	/**
+	 * Gets a string, validates that it's y/n, then returns true or false. This is
+	 * useful when prompting the user to enter yes/no.
+	 * 
+	 * @param sc
+	 *            scanner
+	 * @param prompt
+	 *            prompt to display to the user
+	 * @return true for yes and false for no
+	 */
+	public static boolean getYOrN(Scanner sc, String prompt) {
+		ArrayList<String> validOptions = new ArrayList<>();
+		validOptions.add("y");
+		validOptions.add("n");
+		validOptions.add("Y");
+		validOptions.add("N");
+
+		System.out.print(prompt);
+		String s = sc.next(); // read user entry
+
+		while (!validOptions.contains(s)) {
+			System.out.println(
+					"You must enter one of the following options: " + validOptions.toString() + ". Please try again.");
+			s = sc.next();
+		}
+
+		sc.nextLine(); // discard any other data entered on the line
+
+		return s.equalsIgnoreCase("y");
+	}
 }
