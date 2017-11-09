@@ -15,6 +15,7 @@ public class Board {
 
 	// percentage of board to have mines
 	private final double minePercentage = .20;
+	String[] alphabet = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O" };
 
 	Board(int boardSize) {
 
@@ -87,39 +88,29 @@ public class Board {
 
 	}
 
-/**
- * will initialize cells with cellNumber, numberOfMines, and relative position on board
- */
-		
-private void initializeCells() { 
+	/**
+	 * will initialize cells with cellNumber, numberOfMines, and relative position
+	 * on board
+	 */
 
-	//set row, column, and cell number
-	for(int row = 0; row < this.board.length; row++) {
-		for(int column = 0; column < this.board[row].length; column++) {
-			
-			board[row][column].row = row;
-			board[row][column].column = column;
-			board[row][column].cellNumber = (row + 1) * (column + 1)
-					
-			if(row == 0) {
-				board[row][column].isTopRow = true;
-			}
-			
-			if(row == this.board.length - 1) {
-				board[row][column].isBottom = true;
-			}
-				
-			if(column == 0) {
-				board[row][column].isLeftColumn = true;
-			}
-			
-			if(column == this.board[this.board.length-1].length) {
-				board[row][column].isLeftColumn = true;
-			}
-			}			
+	private void initializeCells() {
+
 	}
-	
-}
+
+	private void printBoard() {
+
+		// print column numbers
+
+		for (int row = 0; row < this.board.length; row++) {
+			System.out.print(alphabet[row] + "  ");
+
+			for (int column = 0; column < this.board[row].length; column++) {
+
+				System.out.print(this.board[row][column]);
+
+			}
+		}
+	}
 
 	private int countHowManyMines(Cell[][] board) {
 		int numberOfMines = 0;
