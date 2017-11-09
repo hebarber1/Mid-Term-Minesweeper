@@ -50,7 +50,7 @@ public class Board {
 
 	}
 
-	private ArrayList<Integer> generateMines(int boardsize) {
+	public ArrayList<Integer> generateMines(int boardsize) {
 		int numberOfMines = (int) Math.ceil(this.minePercentage * boardSize);
 		ArrayList<Integer> locationOfMines = new ArrayList<Integer>();
 		boolean isNewMine = false;
@@ -75,7 +75,7 @@ public class Board {
 		return locationOfMines;
 	}
 
-	private int placeMines(ArrayList<Integer> listOfMines) {
+	public int placeMines(ArrayList<Integer> listOfMines) {
 		System.out.println("Running placeMines()..");
 		for (Integer mine : listOfMines) {
 
@@ -98,7 +98,7 @@ public class Board {
 	 * on board
 	 */
 
-	private void initializeCells() {
+	public void initializeCells() {
 
 		// set row, column, and cell number
 		for (int row = 0; row < this.board.length; row++) {
