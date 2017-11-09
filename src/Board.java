@@ -39,7 +39,7 @@ public class Board {
 
 	}
 
-	private void generateBoard() {
+	public void generateBoard() {
 
 		placeMines(generateMines(this.boardSize));
 		initializeCells();
@@ -77,7 +77,7 @@ public class Board {
 			for (int row = 0; row < this.board.length; row++) {
 				for (int column = 0; column < this.board[row].length; column++) {
 
-					if (this.board[row][column].cellNumber == mine) {
+					if (this.board[row][column].getCellNumber() == mine) {
 						this.board[row][column].hasMine = true;
 					}
 				}
@@ -95,24 +95,59 @@ public class Board {
 
 	private void initializeCells() {
 
+		//set row, column, and cell number
+		for(int row = 0; row < this.board.length; row++) {
+			for(int column = 0; column < this.board[row].length; column++) {
+				
+				this.board[row][column].row = row;
+				this.board[row][column].column = column;
+				this.board[row][column].cellNumber = (row + 1) * (column + 1)
+						
+				if(row == 0) {
+					this.board[row][column].isTopRow = true;
+				}
+				
+				if(row == this.board.length - 1) {
+					this.board[row][column].isBottom = true;
+				}
+					
+				if(column == 0) {
+					this.board[row][column].isLeftColumn = true;
+				}
+				
+				if(column == this.board[this.board.length-1].length) {
+					this.board[row][column].isRightColumn = true;
+				}
+			}			
+		}
+		
 	}
 
-	private void printBoard() {
+	/**
+	 * prints board with columns numbers and row letters so that cells can be
+	 * referenced alpha-numerically ("B12", etc)
+	 */
+	public void printBoard() {
+		String format1 = "%5s,";
 
 		// print column numbers
+		for (int column = 0; column < this.board[0].length; column++) {
+			System.out.print(String.format(format1, (column + 1)));
+		}
 
+		// print rows with leading letter
 		for (int row = 0; row < this.board.length; row++) {
-			System.out.print(alphabet[row] + "  ");
-
+			// print the row Letter
+			System.out.print(String.format("%5s", alphabet[row]));
+			// print cells
 			for (int column = 0; column < this.board[row].length; column++) {
-
-				System.out.print(this.board[row][column]);
+				System.out.print(String.format("%5s", this.board[row][column].getDisplay()));
 
 			}
 		}
 	}
 
-	private int countHowManyMines(Cell[][] board) {
+	public int countHowManyMines(Cell[][] board) {
 		int numberOfMines = 0;
 
 		for (int row = 0; row < this.board.length; row++) {
