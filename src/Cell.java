@@ -1,80 +1,56 @@
 
-/**
- * 
- */
+//This is the cell object, representing a cell in the game board.
 
-/**
- * @author hbm1
- *
- */
+
 public class Cell {
 
-	// Detects number of mines around a selected cell.
+	private boolean covered;  //Whether the cell is covered or not
+	private String display;  // What the cell is displaying to the console
+	private Flag flag; //Enum indicating if the cell has a bomb or question mark
+	private int numberOfSurroundingMines; //number of mines around this cell from 0-8
+	private int row;
+	private int column;
+	private int cellNumber;
+	
+	
+	
 
-	public int numMines(Board display) {
-		for (int x = 1; x < display.length - 2; x++) { // Cycles thru the entire visible display.
+	// constructor
+	public Cell() {
 
-			for (int y = 1; y < display.length - 2; y++) {
-				if (display[x][y].equals(empty) == true) {
-					int numberOfSurroundingMines = 0; // Var for counting mines.
-					for (int i = (x - 1); i <= (x + 1); i++) {
-						for (int j = (y - 1); j <= (y + 1); j++) {
-							if (display[i][j].hasMine == true)
-								numberOfSurroundingMines++; // Incrememnts numberOfSurroundingMines var when a mine is
-															// detected.
-						}
-					}
-					display[x][y] = " " + numberOfSurroundingMines + " ";
-				}
-			}
-		}
+		covered = true;
+		display = "[ ]";
+	}
+	
+	public void setNumberOfSurroundingMines(int numOfMines) {
+		numberOfSurroundingMines = numOfMines;
+	}
+	
+	public int getNumberOfSurroundingMines() {
+		return numberOfSurroundingMines;
+	}
+	
+	// Use this method to change whether the cell is covered or not
+	public void changeCover() {
+		covered = ! covered;
 	}
 
-	// Takes user's selected coordinates and adjusts the board.
-	public void turn(int x, int y){
-	    if(field[x][y].equals(unknown) == true){           //If the spot hasn't been selected, it is cleared.
-	      isDone = false;
-	      display[x][y] = empty;
-	      field[x][y] = empty;
-	    }else if(field[x][y].equals(mine) == true){        //If the user selects a mine.
-	      isDone = true;                                   //Game is done.
-	      isWin = false;                                   //User doesn't win.
-	      System.out.println("You've lost!");
-	    }else if(display[x][y].equals(empty) == true && field[x][y].equals(empty)){
-	      isDone = false;
-	      System.out.println("This cell has been cleared!");
-	    }
-
-	// Determines if a player has cleared all safe Cells.
-	public void isVictory() {
-		int tile = 0; // Var for the number of uncleared tiles in the array.
-		for (int i = 0; i < field.length; i++) {
-			for (int j = 0; j < field[0].length; j++) {
-				if (field[i][j].equals(unknown) == true)
-					tile++; // If there are uncleared tiles, var is incremented.
-			}
-		}
-		if (tile != 0)
-			isWin = false; // If there are still uncleared Cells, player hasn't won.
-		else {
-			isWin = true;
-			isDone = true;
-		}
+	// Use this method to check if a cell is covered
+	public boolean isCovered() {
+		return covered;
 	}
 
-	// Determines if the game is finished.
-	public Boolean getDone() {
-		return isDone;
+	// Gets what is currently displayed on the cell
+	public String getDisplay() {
+		return display;
 	}
 
-	// Determines if a player won.
-	public Boolean getWin() {
-		return isWin;
+	//Sets what should be displayed on the cell
+	public void setDisplay(String newDisplay) {
+		display = newDisplay;
 	}
 
-	// Displays location of mines at end of game.
-	public void onEnd() {
-		printGame(field);
-	}
+	// to string
+
 
 }
