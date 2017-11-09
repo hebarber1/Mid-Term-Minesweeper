@@ -10,7 +10,7 @@ public class Console {
 		// 1-Choose cell
 		Scanner sc = new Scanner(System.in);
 		Validator.getString(sc, "Please choose a cell?");
-		String cellNum = sc.next();
+		String cellName = sc.next();
 				
 		}
 	

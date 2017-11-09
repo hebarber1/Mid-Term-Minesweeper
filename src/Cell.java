@@ -9,6 +9,7 @@ public class Cell {
 	private boolean isBottomRow; //Checking for mines bottom row
 	private boolean isLeftColumn; //Checking for mines left column
 	private boolean isRightColumn; //Checking for mines right column
+	private String cellName; //Name of cell
 	private boolean hasMine; //Cell has a mine
 	private String display;  // What the cell is displaying to the console
 	private Flag flag; //Enum indicating if the cell has a bomb or question mark
@@ -96,6 +97,66 @@ public class Cell {
 	// gets the cell number
 	public int getCellNumber() {
 		return cellNumber;
+	}
+
+	public boolean isTopRow() {
+		return isTopRow;
+	}
+
+	public void setTopRow(boolean isTopRow) {
+		this.isTopRow = isTopRow;
+	}
+
+	public boolean isBottomRow() {
+		return isBottomRow;
+	}
+
+	public void setBottomRow(boolean isBottomRow) {
+		this.isBottomRow = isBottomRow;
+	}
+
+	public boolean isLeftColumn() {
+		return isLeftColumn;
+	}
+
+	public void setLeftColumn(boolean isLeftColumn) {
+		this.isLeftColumn = isLeftColumn;
+	}
+
+	public boolean isRightColumn() {
+		return isRightColumn;
+	}
+
+	public void setRightColumn(boolean isRightColumn) {
+		this.isRightColumn = isRightColumn;
+	}
+
+	public boolean isHasMine() {
+		return hasMine;
+	}
+
+	public void setHasMine(boolean hasMine) {
+		this.hasMine = hasMine;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public void setCovered(boolean covered) {
+		this.covered = covered;
+	}
+
+	public String getCellName() {
+		return cellName;
+	}
+
+	public void setCellName(String cellName) {
+		this.cellName = cellName;
 	}
 
 	@Override
