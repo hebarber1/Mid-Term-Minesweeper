@@ -30,7 +30,8 @@ public class Main {
 			// Call Board.displayBoard() (returns an empty board at this point)
 
 			// Call Console.printMenu() to display menu to the user
-
+			Console.printCell();
+			
 			// Process menu number selected by the user
 			int menuNumber = Validator.getInt(scan, "Enter menu number: ", 1, 5);
 			switch (menuNumber) {
