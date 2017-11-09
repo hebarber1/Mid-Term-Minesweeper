@@ -5,6 +5,11 @@
 public class Cell {
 
 	private boolean covered;  //Whether the cell is covered or not
+	private boolean isTopRow; //Checking for mines top row
+	private boolean isBottomRow; //Checking for mines bottom row
+	private boolean isLeftColumn; //Checking for mines left column
+	private boolean isRightColumn; //Checking for mines right column
+	private boolean hasMine; //Cell has a mine
 	private String display;  // What the cell is displaying to the console
 	private Flag flag; //Enum indicating if the cell has a bomb or question mark
 	private int numberOfSurroundingMines; //number of mines around this cell from 0-8
