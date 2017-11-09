@@ -16,27 +16,26 @@ public class Board {
 	// percentage of board to have mines
 	private final double minePercentage = .20;
 
-	Board(int boardSize){
-	
-	
-	switch(boardSize) {
-	case 1:
-		this.board = new Cell [SMALL_BOARD][SMALL_BOARD];
-		this.boardSize = SMALL_BOARD * SMALL_BOARD;
-		break;
-		
-	case 2:
-		this.board = new Cell [MEDIUM_BOARD][MEDIUM_BOARD];
-		this.boardSize = MEDIUM_BOARD * MEDIUM_BOARD;
-		break;
-		
-	case 3:
-		this.board = new Cell [LARGE_BOARD][LARGE_BOARD];
-		this.boardSize = LARGE_BOARD * LARGE_BOARD;
-		break;
-		
-	}
-		
+	Board(int boardSize) {
+
+		switch (boardSize) {
+		case 1:
+			this.board = new Cell[SMALL_BOARD][SMALL_BOARD];
+			this.boardSize = SMALL_BOARD * SMALL_BOARD;
+			break;
+
+		case 2:
+			this.board = new Cell[MEDIUM_BOARD][MEDIUM_BOARD];
+			this.boardSize = MEDIUM_BOARD * MEDIUM_BOARD;
+			break;
+
+		case 3:
+			this.board = new Cell[LARGE_BOARD][LARGE_BOARD];
+			this.boardSize = LARGE_BOARD * LARGE_BOARD;
+			break;
+
+		}
+
 	}
 
 	private void generateBoard() {
@@ -67,52 +66,77 @@ public class Board {
 			}
 		}
 
-		System.out.println(locationOfMines.size()); //print size of arraylist (number of mines created)
+		System.out.println(locationOfMines.size()); // print size of arraylist (number of mines created)
 		return locationOfMines;
 	}
 
-private int placeMines(ArrayList<Integer> listOfMines) {
-	for(Integer mine: listOfMines) {
-		
-		for(int row = 0; row < this.board.length; row++) {
-			for(int column = 0; column < this.board[row].length; column++) {
-				
-				if( this.board[row][column].cellNumber == mine) {
-					this.board[row][column].hasMine = true;
-				}
-			}			
-		}
-	}
+	private int placeMines(ArrayList<Integer> listOfMines) {
+		for (Integer mine : listOfMines) {
 
-	return countHowManyMines(this.board);
-	
-}
+			for (int row = 0; row < this.board.length; row++) {
+				for (int column = 0; column < this.board[row].length; column++) {
+
+					if (this.board[row][column].cellNumber == mine) {
+						this.board[row][column].hasMine = true;
+					}
+				}
+			}
+		}
+
+		return countHowManyMines(this.board);
+
+	}
 
 /**
  * will initialize cells with cellNumber, numberOfMines, and relative position on board
  */
 		
 private void initializeCells() { 
-	
-};
 
-
-private int countHowManyMines(Cell[][] board) {
-int numberOfMines = 0;
-	
+	//set row, column, and cell number
 	for(int row = 0; row < this.board.length; row++) {
 		for(int column = 0; column < this.board[row].length; column++) {
 			
-			if(this.board[row][column].hasMine = true) {
-				numberOfMines++;
+			board[row][column].row = row;
+			board[row][column].column = column;
+			board[row][column].cellNumber = (row + 1) * (column + 1)
+					
+			if(row == 0) {
+				board[row][column].isTopRow = true;
 			}
-		}
-		
+			
+			if(row == this.board.length - 1) {
+				board[row][column].isBottom = true;
+			}
+				
+			if(column == 0) {
+				board[row][column].isLeftColumn = true;
+			}
+			
+			if(column == this.board[this.board.length-1].length) {
+				board[row][column].isLeftColumn = true;
+			}
+			}			
 	}
 	
-	return numberOfMines;
-	
 }
+
+	private int countHowManyMines(Cell[][] board) {
+		int numberOfMines = 0;
+
+		for (int row = 0; row < this.board.length; row++) {
+			for (int column = 0; column < this.board[row].length; column++) {
+
+				if (this.board[row][column].hasMine = true) {
+					numberOfMines++;
+				}
+			}
+
+		}
+
+		return numberOfMines;
+
+	}
 	// CONSTRUCTOR
 	// Board constructor to initialize a board of the size specified by the user
 	// The constructor will call a method to generate the mines and calculate
