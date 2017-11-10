@@ -19,13 +19,11 @@ public class Board {
 	String[] alphabet = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O" };
 
 	public Board(int boardSize) {
-		System.out.println("Running Board constructor...");
+		// System.out.println("Running Board constructor...");
 		switch (boardSize) {
 		case 1:
-			System.out.println("Case 1...");
+			// System.out.println("Case 1...");
 			this.board = new Cell[SMALL_BOARD][SMALL_BOARD];
-			//fillArrayWithCells(this.board);
-			//printBoard(this.board);
 			this.boardSize = SMALL_BOARD * SMALL_BOARD;
 			break;
 
@@ -46,10 +44,9 @@ public class Board {
 
 	public void fillArrayWithCells(Cell[][] board) {
 		System.out.println("Running fillArrayWithCells...");
-		
+
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
-				//System.out.println("Creating cell: " + ((row * (this.board[row].length) ) + (column +1)));
 				board[row][column] = new Cell();
 			}
 		}
@@ -57,73 +54,54 @@ public class Board {
 
 	public void generateBoard() {
 		System.out.println("Running generateBoard()...");
+
 		fillArrayWithCells(this.board);
-		placeMines(generateMines(this.boardSize));
 		initializeCells();
+		placeMines(generateMines(this.boardSize));
 		printBoard(this.board);
 
 	}
 
 	public ArrayList<Integer> generateMines(int boardsize) {
-		System.out.println("Running generateMines()...");
-		System.out.println("boardsize passed through = " + boardsize);
-		
 		int numberOfMines = (int) Math.ceil(this.minePercentage * boardSize);
 		ArrayList<Integer> locationOfMines = new ArrayList<Integer>();
 		boolean isNewMine = false;
-		int counter = 0;
-		
-		System.out.println("Number of mines: " + numberOfMines);
-		System.out.println("locationOfMines.size = " + locationOfMines.size()); // print size of arraylist (number of mines created)
-		
+
 		int random = (int) (Math.random() * boardsize + 1);
-		System.out.println("Random number 0: " + random);
-		
-		System.out.println("Adding first mine...");
+		// add first random number so Array isn't null and the while loop isn't skipped
 		locationOfMines.add(random);
-		
+
 		while (locationOfMines.size() < numberOfMines) {
 			random = (int) (Math.random() * boardsize + 1);
-			
-			System.out.println("\nRandom number "+ (counter + 1) + ": " + random);
-			
+
 			for (Integer mine : locationOfMines) { // loop through locationOfMine list
 				if (mine == random) { // if this random number has already been picked,
-					System.out.println("Mine = random #");
 					isNewMine = false; // it is not new a mine
 				} else {
-					System.out.println("Mine != random #");
 					isNewMine = true; // it is a new mine
 				}
 			}
 
 			if (isNewMine) { // if a new mine
-				System.out.println("Adding mine...");
 				locationOfMines.add(random); // add to list
-				System.out.println("\nMines Collected so far:");
-				for (int i = 0; i< locationOfMines.size(); i++) {
-					System.out.println(locationOfMines.get(i));
-				}
-				
-			}
-			
-			counter++;
-			if( counter > 30) {
-				break;
 			}
 		}
 
-		System.out.println("\nlocationOfMines.size = " + locationOfMines.size()); // print size of arraylist (number of mines created)
+		System.out.println("\nlocationOfMines.size = " + locationOfMines.size()); // print size of arraylist (number of
+																					// mines created)
 		return locationOfMines;
 	}
 
 	public int placeMines(ArrayList<Integer> listOfMines) {
 		System.out.println("Running placeMines()..");
-		for (Integer mine : listOfMines) {
 
+		// go through the list of mines
+		for (Integer mine : listOfMines) {
+               
 			for (int row = 0; row < this.board.length; row++) {
 				for (int column = 0; column < this.board[row].length; column++) {
-
+					
+					//if the cellNumber appears on the list place a mine 
 					if (this.board[row][column].getCellNumber() == mine) {
 						this.board[row][column].setHasMine(true);
 					}
@@ -132,23 +110,25 @@ public class Board {
 		}
 
 		return countHowManyMines(this.board);
-
 	}
 
 	/**
 	 * will initialize cells with cellNumber, numberOfMines, and relative position
 	 * on board
 	 */
-
 	public void initializeCells() {
+		int cellNumber;
 
+		System.out.println("Running initializeCells()...");
 		// set row, column, and cell number
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
+				cellNumber = row * (this.board[row].length) + (column + 1);
 
 				this.board[row][column].setRow(row);
 				this.board[row][column].setColumn(column);
-				this.board[row][column].setCellNumber(row * (this.board[row].length) + (column +1));
+				this.board[row][column].setCellNumber(cellNumber);
+				this.board[row][column].setCellName(alphabet[row] + (column + 1));
 
 				if (row == 0) {
 					this.board[row][column].setTopRow(true);
@@ -170,27 +150,31 @@ public class Board {
 
 	}
 
+	public void showMines(Cells[][] board) {
+		
+		
+	}
 	/**
 	 * prints board with columns numbers and row letters so that cells can be
 	 * referenced alpha-numerically ("B12", etc)
 	 */
 	public void printBoard(Cell[][] board) {
-		System.out.println("Running printBoard()...");
-		String format1 = "%5s";
+		System.out.println("Running printBoard()...\n");
+		String stringFormat = "%4s";
 
 		// print column numbers
-		System.out.print("    ");
+		System.out.print("   ");
 		for (int column = 0; column < board[0].length; column++) {
-			System.out.print(String.format(format1, (column + 1)));
+			System.out.print(String.format(stringFormat, (column + 1)));
 		}
 
 		// print rows with leading letter
 		for (int row = 0; row < board.length; row++) {
 			// print the row Letter
-			System.out.print(String.format("\n%5s", alphabet[row]));
+			System.out.print(String.format("\n"+stringFormat, alphabet[row]));
 			// print cells
 			for (int column = 0; column < board[row].length; column++) {
-				System.out.print(String.format("%5s", board[row][column].getDisplay()));
+				System.out.print(String.format(stringFormat, board[row][column].getDisplay()));
 
 			}
 		}
@@ -220,10 +204,10 @@ public class Board {
 
 		System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
 
-		Board mineBoard = new Board(1); // TOFIX Specify board size
+		Board mineBoard = new Board(3); // TOFIX Specify board size
 
 		mineBoard.generateBoard();
-		mineBoard.printBoard(mineBoard.board);
+		System.out.println("\n" + mineBoard.countHowManyMines(mineBoard.board));
 
 	}
 	// CONSTRUCTOR
