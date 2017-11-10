@@ -14,12 +14,11 @@ public class Main {
 		Cell selectedCell = new Cell("not error");
 		boolean proceed = true;
 		boolean won = false;
-		// boolean lost = false;
 
 		System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
 
 		while (keepGoing) {
-			won = false;
+			won = false; // Reset to new game
 
 			// Prompt the user to select from one of 3 levels.
 			System.out.println("Select your level (1/2/3): ");
@@ -35,12 +34,12 @@ public class Main {
 
 			// Create the game engine
 			GameEngine game = new GameEngine(mineBoard);
-			mineBoard.revealMines(board);
+			//mineBoard.revealMines(board);
 			printBoard(mineBoard, game);
 
 			while (!won) {
 
-				// Prompt the user to enter a cell in the form A1
+				// Begin game and prompt the user to choose a cell in the form of "A1"
 				do {
 					String selectedCellName = Console.chooseCell();
 					System.out.println("Selected cell " + selectedCellName + "\n");
@@ -51,11 +50,9 @@ public class Main {
 				String action = Console.chooseAction();
 				System.out.println("Action: " + action);
 
-				// Prompt the user to confirm their selection
-				// 4proceed = Console.confirmAction();
-
 				if (proceed) {
 					// Call a method depending on the action selected
+					// F = flag mine, Q = question, U = uncover cell
 					if (action.equalsIgnoreCase("F")) {
 						game.flagCell(selectedCell, "F");
 					} else if (action.equalsIgnoreCase("Q")) {
@@ -84,6 +81,12 @@ public class Main {
 		scan.close();
 	}
 
+	/**
+	 * print board and bombs remaining together
+	 * 
+	 * @param board
+	 * @param gameEngine
+	 */
 	public static void printBoard(Board board, GameEngine gameEngine) {
 		board.printBoard(board.getBoard());
 		System.out.println("   Bombs remaining: " + gameEngine.getBombFlagCount());

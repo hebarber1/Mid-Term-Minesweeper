@@ -1,24 +1,26 @@
 
 //This is the cell object, representing a cell in the game board.
 
-
 public class Cell {
 
-	private boolean covered;  //Whether the cell is covered or not
-	private boolean isTopRow; //Checking for mines top row
-	private boolean isBottomRow; //Checking for mines bottom row
-	private boolean isLeftColumn; //Checking for mines left column
-	private boolean isRightColumn; //Checking for mines right column
-	private String cellName; //Name of cell
-	private boolean hasMine; //Cell has a mine
-	private String display;  // What the cell is displaying to the console
-	private Flag flag; //Enum indicating if the cell has a bomb or question mark
-	private int numberOfSurroundingMines; //number of mines around this cell from 0-8
-	private int row; // number that represents the row the cell is in, it's 0 based
-	private int col; // number that represens the col the cell is in, it's 0 based
+	private String cellName; // Name of cell
 	private int cellNumber; // cell number on the board, so if the board is 5 x 5, the last cell is 25
-	
-	// constructor
+
+	private boolean hasMine; // Cell has a mine
+	private String display; // What the cell is displaying to the console
+	private Flag flag; // Enum indicating if the cell has a bomb or question mark
+	private int numberOfSurroundingMines; // number of mines around this cell from 0-8
+	private boolean covered; // Whether the cell is covered or not
+
+	private boolean isTopRow; // Checking for mines top row
+	private boolean isBottomRow; // Checking for mines bottom row
+	private boolean isLeftColumn; // Checking for mines left column
+	private boolean isRightColumn; // Checking for mines right column
+
+	private int row; // number that represents the row the cell is in, it's 0 based
+	private int col; // number that represents the col the cell is in, it's 0 based
+
+	// constructors
 	public Cell() {
 		covered = true;
 		display = "[ ]";
@@ -29,7 +31,7 @@ public class Cell {
 		cellNumber = 0;
 		cellName = "blank";
 	}
-	
+
 	public Cell(String name) {
 		covered = true;
 		display = "[ ]";
@@ -39,12 +41,12 @@ public class Cell {
 		col = 0;
 		cellNumber = 0;
 		cellName = name;
-		
+
 	}
 
 	// Use this method to change whether the cell is covered or not
 	public void changeCover() {
-		covered = ! covered;
+		covered = !covered;
 	}
 
 	// Use this method to check if a cell is covered
@@ -57,7 +59,7 @@ public class Cell {
 		return display;
 	}
 
-	//Sets what should be displayed on the cell
+	// Sets what should be displayed on the cell
 	public void setDisplay(String newDisplay) {
 		display = newDisplay;
 	}
