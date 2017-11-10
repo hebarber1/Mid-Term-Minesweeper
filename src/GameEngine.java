@@ -7,13 +7,11 @@ public class GameEngine {
 
 	private int bombFlagCount; // number of bombs flagged by the user
 	private int actualBombsRemaining; // number of actual bombs on the board minus actual bombs flagged
-	private Board board;
 
 	// Constructor for the game engine
-	public GameEngine(int level) {
-		board = new Board(level);
-		bombFlagCount = board.countHowManyMines();
-		actualBombsRemaining = board.countHowManyMines();
+	public GameEngine() {
+		bombFlagCount = 0; // TOFIX: need to call board.countHowManyMines();
+		actualBombsRemaining = 0; // TOFIX: need to call board.countHowManyMines();
 	}
 
 	// Places a flag (bomb or question) on the cell selected by the user
@@ -23,7 +21,7 @@ public class GameEngine {
 			bombFlagCount--;
 
 			// Check if the cell actually has a bomb. If it does, decrease remaining bombs.
-			if (cellSelected.hasMine()) {
+			if (cellSelected.isHasMine()) {
 				actualBombsRemaining--;
 			}
 		} else if (typeOfFlag == "Q") {
@@ -35,7 +33,7 @@ public class GameEngine {
 	// cell and performs
 	// the corresponding actions
 	public void uncoverCell(Cell cellSelected) {
-		if (cellSelected.hasMine()) {
+		if (cellSelected.isHasMine()) {
 			System.out.println("Game over!");
 			// call method to uncover the entire board
 			// call method to redisplay the board
