@@ -10,6 +10,48 @@ public class Validator
         sc.nextLine();  // discard any other data entered on the line
         return s;
     }
+    
+    public static String getChar(Scanner sc, String prompt, String string1, String string2) {
+		String i = null;
+		boolean isValid = false;
+		String string = null;
+
+		while (isValid == false) {
+			System.out.print(prompt);
+			if (sc.hasNext()) {
+				string = sc.next();
+				if (string.length() == 1 && (string.equalsIgnoreCase(string1) || string.equalsIgnoreCase(string2))) {
+					i = string;
+					isValid = true;
+				} else {
+					System.out.println("Invalid choice. Try again.\n");
+				}
+			}
+			sc.nextLine(); // discard any other data entered on the line
+		}
+		return i;
+	}
+
+	public static String getChar(Scanner sc, String prompt, String string1, String string2, String string3) {
+		String i = null;
+		boolean isValid = false;
+		String string = null;
+
+		while (isValid == false) {
+			System.out.print(prompt);
+			if (sc.hasNext()) {
+				string = sc.next();
+				if (string.length() == 1 && (string.equalsIgnoreCase(string1) || string.equalsIgnoreCase(string2) || string.equalsIgnoreCase(string3))) {
+					i = string;
+					isValid = true;
+				} else {
+					System.out.println("Invalid choice. Try again.\n");
+				}
+			}
+			sc.nextLine(); // discard any other data entered on the line
+		}
+		return i;
+	}
 
     public static int getInt(Scanner sc, String prompt)
     {

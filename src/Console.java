@@ -15,7 +15,7 @@ public class Console {
 	
 	public static String chooseAction() {
 		Scanner sc = new Scanner(System.in);		
-		String actionChosen = Validator.getString(sc, "Choose action F(Flag), Q(Question), or U(Uncover)");
+		String actionChosen = Validator.getChar(sc, "Choose action F(Flag), Q(Question), or U(Uncover)","F","Q","U");
 			return actionChosen;	
 	}
 	

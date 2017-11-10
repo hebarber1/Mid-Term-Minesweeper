@@ -174,7 +174,7 @@ public class Board {
 
 		int numberOfMines = 0;
 
-		for (int row = 1; row < board.length -1; row++) {
+		for (int row = 1; row < board.length - 1; row++) {
 			for (int column = 1; column < board[row].length - 1; column++) {
 
 				if (this.board[row][column].isTopRow() && this.board[row][column].isLeftColumn()) {
@@ -237,8 +237,9 @@ public class Board {
 			for (int column = 0; column < this.board[row].length; column++) {
 
 				if (this.board[row][column].isHasMine() == false) {
-					this.board[row][column].setDisplay(String.format(" %d ", this.board[row][column].getNumberOfSurroundingMines()));
-					if(this.board[row][column].getNumberOfSurroundingMines() == 0) {
+					this.board[row][column]
+							.setDisplay(String.format(" %d ", this.board[row][column].getNumberOfSurroundingMines()));
+					if (this.board[row][column].getNumberOfSurroundingMines() == 0) {
 						this.board[row][column].setDisplay("");
 					}
 				}
@@ -264,7 +265,7 @@ public class Board {
 		// print rows with leading letter in two parts
 		for (int row = 0; row < board.length; row++) {
 			// first, print the row Letter
-			System.out.print(String.format("\n" + stringFormat, alphabet[row])+"|");
+			System.out.print(String.format("\n" + stringFormat, alphabet[row]) + "|");
 			// next, print cells
 			for (int column = 0; column < board[row].length; column++) {
 				System.out.print(String.format(stringFormat, board[row][column].getDisplay()));
@@ -281,16 +282,31 @@ public class Board {
 
 				if (this.board[row][column].isHasMine() == true) {
 					numberOfMines++;
-
 				}
 			}
 		}
 
 		return numberOfMines;
+	}
+
+	public Cell selectCell(String cellName) {
+		Cell error = new Cell();
+		error.setCellName("error");
+		
+		for (int row = 0; row < this.board.length; row++) {
+			for (int column = 0; column < this.board[row].length; column++) {
+
+				if (this.board[row][column].getCellName().equalsIgnoreCase(cellName)) {
+					return this.board[row][column];
+				}
+			}
+		}
+		System.out.println(cellName + " not found!");
+		return error;
 
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		// Scanner scan = new Scanner(System.in);
 		// boolean keepGoing = true;
@@ -307,7 +323,7 @@ public class Board {
 		mineBoard.printBoard(mineBoard.board);
 		System.out.println("\n" + mineBoard.countHowManyMines(mineBoard.board));
 
-	}
+	}*/
 	// CONSTRUCTOR
 	// Board constructor to initialize a board of the size specified by the user
 	// The constructor will call a method to generate the mines and calculate

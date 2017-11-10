@@ -11,6 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		boolean keepGoing = true;
+		Cell selectedCell = new Cell();
 
 		System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
 
@@ -30,49 +31,37 @@ public class Main {
 			GameEngine game = new GameEngine(mineBoard);
 
 			// Prompt the user to enter a cell in the form A1
-			String selectedCell = Console.chooseCell();
-			System.out.println("Selected cell " + selectedCell);
-			// TODO Need to convert cell from A1 to 0,0??
-			// TODO Need a method in the Board that returns a specific cell from the board
-			// using row/col
+			String selectedCellName = Console.chooseCell();
+			System.out.println("Selected cell " + selectedCellName);
+			selectedCell = mineBoard.selectCell(selectedCellName);
+			if (!selectedCell.getCellName().equals("error")) {
 
-			// TODELETE
-			Cell cell = new Cell();
+				// Prompt the user to enter an action for the cell
+				String action = Console.chooseAction();
+				System.out.println("Action: " + action);
 
-			cell.setColumn(0);
-			cell.setRow(0);
-			cell.setNumberOfSurroundingMines(1);
-			cell.setDisplay("1");
+				// Prompt the user to confirm their selection
+				boolean proceed = Console.confirmAction();
 
-			Cell cell2 = new Cell();
-			cell2.setColumn(1);
-			cell2.setRow(0);
-			cell2.setHasMine(true);
+				if (proceed) {
+					// Call a method depending on the action selected
+					if (action.equalsIgnoreCase("F")) {
+						game.flagCell(selectedCell, "F");
+					} else if (action.equalsIgnoreCase("Q")) {
+						game.flagCell(selectedCell, "Q");
+					} else {
+						game.uncoverCell(selectedCell);
+					}
 
-			// Prompt the user to enter an action for the cell
-			String action = Console.chooseAction();
-			System.out.println("Action: " + action);
+					// Refresh the board after executing user action
+					mineBoard.generateBoard();
 
-			// Prompt the user to confirm their selection
-			boolean proceed = Console.confirmAction();
+					// Check if the user has won
+					if (game.hasWon()) {
+						System.out.println("Congratulations! You have won!");
+						keepGoing = Validator.getYOrN(scan, "Would you like to keep playing (y/n)");
+					}
 
-			if (proceed) {
-				// Call a method depending on the action selected
-				if (action.equals("F")) {
-					game.flagCell(cell, "F");
-				} else if (action.equals("Q")) {
-					game.flagCell(cell, "Q");
-				} else {
-					game.uncoverCell(cell);
-				}
-
-				// Refresh the board after executing user action
-				mineBoard.generateBoard();
-
-				// Check if the user has won
-				if (game.hasWon()) {
-					System.out.println("Congratulations! You have won!");
-					keepGoing = Validator.getYOrN(scan, "Would you like to keep playing (y/n)");
 				}
 			}
 		}
