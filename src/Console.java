@@ -6,27 +6,25 @@ public class Console {
 
 	// METHOD printMenu() will print the following choices to the console
 		
-	public static void chooseCell() {
+	public static String chooseCell() {
 		// 1-Choose cell
-		Scanner sc = new Scanner(System.in);
-		Validator.getString(sc, "Please choose a cell?");
-		String cellName = sc.next();
-				
+		Scanner sc = new Scanner(System.in);		
+		String cellName = Validator.getString(sc, "Please choose a cell?");
+			return cellName;	
 		}
 	
-	public static void chooseAction() {
-		Scanner sc = new Scanner(System.in);
-		Validator.getString(sc, "Choose action F(Flag), Q(Question), or U(Uncover)");
-		String actionChosen = sc.next();
-		
-		
+	public static String chooseAction() {
+		Scanner sc = new Scanner(System.in);		
+		String actionChosen = Validator.getString(sc, "Choose action F(Flag), Q(Question), or U(Uncover)");
+			return actionChosen;	
 	}
 	
-	public static void confirmAction(){
+	public static String confirmAction(){
 		
 		// 3-Confirm Action
 		Scanner sc = new Scanner(System.in);	
 		Validator.getYOrN(sc, "Are you sure? (y/n)");
+			return null ;
 		
 	}
 	
