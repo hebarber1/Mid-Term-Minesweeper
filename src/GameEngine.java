@@ -7,44 +7,42 @@ public class GameEngine {
 
 	private int bombFlagCount; // number of bombs flagged by the user
 	private int actualBombsRemaining; // number of actual bombs on the board minus actual bombs flagged
-	private Board board;
+	private Board mineBoard;
 
 	// Constructor for the game engine
-	public GameEngine(int level) {
-		board = new Board(level);
-		bombFlagCount = board.countHowManyMines();
-		actualBombsRemaining = board.countHowManyMines();
+	public GameEngine(Board board) {
+		mineBoard = board;
+		bombFlagCount = 0; // TODO: countHowManyMines()
+		actualBombsRemaining = 0; // TODO: countHowManyMines()
 	}
 
 	// Places a flag (bomb or question) on the cell selected by the user
 	public void flagCell(Cell cellSelected, String typeOfFlag) {
 		if (typeOfFlag == "F") {
 			cellSelected.setFlag(Flag.BOMB);
+			cellSelected.setDisplay("*");
 			bombFlagCount--;
 
 			// Check if the cell actually has a bomb. If it does, decrease remaining bombs.
-			if (cellSelected.hasMine()) {
+			if (cellSelected.isHasMine()) {
 				actualBombsRemaining--;
 			}
 		} else if (typeOfFlag == "Q") {
 			cellSelected.setFlag(Flag.QUESTION);
+			cellSelected.setDisplay("?");
 		}
 	}
 
 	// This method is called when the user selects to uncover a cell. It checks the
-	// cell and performs
-	// the corresponding actions
+	// cell and performs the applicable action
 	public void uncoverCell(Cell cellSelected) {
-		if (cellSelected.hasMine()) {
+		if (cellSelected.isHasMine()) {
 			System.out.println("Game over!");
-			// call method to uncover the entire board
-			// call method to redisplay the board
+			uncoverAllCells();
 		} else if (cellSelected.getNumberOfSurroundingMines() >= 1) {
 			cellSelected.changeCover(); // if cell has a number of mines, it uncovers only that cell
-			// call method to redisplay the board
 		} else if (cellSelected.getNumberOfSurroundingMines() == 0) {
-			// call method to uncover all the applicable cells (surrounding empty and
-			// numbered)
+			uncoverSurroundingCells();
 		}
 	}
 
@@ -55,9 +53,17 @@ public class GameEngine {
 	}
 
 	// This method will be called when the user uncovers an empty cell to determine
-	// what surrounding
-	// cells need to be uncovered
-	public void determineCellsToUncover() {
+	// what surrounding cells need to be uncovered
+	// TODO Need method to get cell from board
+	public void uncoverSurroundingCells() {
+
+	}
+
+	// This method will be called when the user clicks on a bomb and the game is
+	// over
+	// It will uncover the entire board
+	// TODO Need method to get cell from board
+	public void uncoverAllCells() {
 
 	}
 }
