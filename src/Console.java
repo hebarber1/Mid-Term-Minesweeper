@@ -19,12 +19,13 @@ public class Console {
 			return actionChosen;	
 	}
 	
-	public static String confirmAction(){
+	public static boolean confirmAction(){
 		
 		// 3-Confirm Action
 		Scanner sc = new Scanner(System.in);	
-		Validator.getYOrN(sc, "Are you sure? (y/n)");
-			return null ;
+		boolean confirmation = Validator.getYOrN(sc, "Are you sure? (y/n)");
+		
+			return confirmation ;
 		
 	}
 	
