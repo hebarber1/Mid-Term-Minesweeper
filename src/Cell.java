@@ -27,6 +27,19 @@ public class Cell {
 		row = 0;
 		col = 0;
 		cellNumber = 0;
+		cellName = "blank";
+	}
+	
+	public Cell(String name) {
+		covered = true;
+		display = "[ ]";
+		flag = null;
+		numberOfSurroundingMines = 0;
+		row = 0;
+		col = 0;
+		cellNumber = 0;
+		cellName = name;
+		
 	}
 
 	// Use this method to change whether the cell is covered or not
@@ -35,7 +48,7 @@ public class Cell {
 	}
 
 	// Use this method to check if a cell is covered
-	public boolean isCovered() {
+	public boolean getCovered() {
 		return covered;
 	}
 
