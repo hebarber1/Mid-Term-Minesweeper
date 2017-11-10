@@ -30,8 +30,9 @@ public class Main {
 			GameEngine game = new GameEngine(mineBoard);
 
 			// Prompt the user to enter a cell in the form A1
-			Console.chooseCell(); // TODO Needs to return the cell, get rid of sc.next()
-			// TODO Need to convert cell from A1 to 0,0
+			String selectedCell = Console.chooseCell();
+			System.out.println("Selected cell " + selectedCell);
+			// TODO Need to convert cell from A1 to 0,0??
 			// TODO Need a method in the Board that returns a specific cell from the board
 			// using row/col
 
@@ -49,18 +50,17 @@ public class Main {
 			cell2.setHasMine(true);
 
 			// Prompt the user to enter an action for the cell
-			Console.chooseAction(); // TODO Needs to return the action, get rid of sc.next
-			String userAction = "U"; // DELETE
+			String action = Console.chooseAction();
+			System.out.println("Action: " + action);
 
 			// Prompt the user to confirm their selection
-			Console.confirmAction(); // TODO Needs to return user input
-			String confirmation = "y"; // DELETE
+			boolean proceed = Console.confirmAction();
 
-			if (confirmation.equalsIgnoreCase("y")) {
+			if (proceed) {
 				// Call a method depending on the action selected
-				if (userAction.equals("F")) {
+				if (action.equals("F")) {
 					game.flagCell(cell, "F");
-				} else if (userAction.equals("Q")) {
+				} else if (action.equals("Q")) {
 					game.flagCell(cell, "Q");
 				} else {
 					game.uncoverCell(cell);
@@ -76,7 +76,6 @@ public class Main {
 				}
 			}
 		}
-
 		System.out.println("Goodbye!");
 		scan.close();
 	}
