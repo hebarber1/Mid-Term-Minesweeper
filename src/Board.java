@@ -97,11 +97,11 @@ public class Board {
 
 		// go through the list of mines
 		for (Integer mine : listOfMines) {
-               
+
 			for (int row = 0; row < this.board.length; row++) {
 				for (int column = 0; column < this.board[row].length; column++) {
-					
-					//if the cellNumber appears on the list place a mine 
+
+					// if the cellNumber appears on the list place a mine
 					if (this.board[row][column].getCellNumber() == mine) {
 						this.board[row][column].setHasMine(true);
 					}
@@ -150,16 +150,109 @@ public class Board {
 
 	}
 
-	public void showMines(Cells[][] board) {
-		
-		
+	public void revealMines(Cell[][] board) {
+		for (int row = 0; row < this.board.length; row++) {
+			for (int column = 0; column < this.board[row].length; column++) {
+				if (this.board[row][column].isHasMine() == true) {
+					this.board[row][column].setDisplay("[*]");
+				}
+
+			}
+		}
 	}
+
+	public void setNumberOfSurroundingMines(Cell[][] board) {
+		System.out.println("\n\nRunning setNumberOfSurroundingMines...");
+
+		//
+		// final String topLeftCorner = board[0][0].getCellName();
+		// String topRightCorner = board[0][board[0].length].getCellName();
+		// String bottomLeftCorner = board[board.length][0].getCellName();
+		// String bottomRightCorner =
+		// board[board.length][board[0].length].getCellName();
+		//
+
+		int numberOfMines = 0;
+
+		for (int row = 1; row < board.length -1; row++) {
+			for (int column = 1; column < board[row].length - 1; column++) {
+
+				if (this.board[row][column].isTopRow() && this.board[row][column].isLeftColumn()) {
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("top left");
+				} else if (this.board[row][column].isTopRow() && this.board[row][column].isRightColumn()) {
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("top right");
+				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isLeftColumn()) {
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("bottom left");
+				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isRightColumn()) {
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("bottom right");
+				} else {
+
+					// if cell location != top, count the 3 cells with mines below
+					if (this.board[row][column].isTopRow() != true) {
+						System.out.println("location != top..");
+						if (this.board[row + 1][column - 1].isHasMine() == true)
+							numberOfMines++;
+						if (this.board[row + 1][column].isHasMine() == true)
+							numberOfMines++;
+						if (this.board[row + 1][column + 1].isHasMine() == true)
+							numberOfMines++;
+						System.out.println("Number of mines: " + numberOfMines);
+					}
+
+					// if cell location != bottom, count the 3 cells with mines above
+					if (this.board[row][column].isBottomRow() != true) {
+						if (this.board[row - 1][column - 1].isHasMine() == true)
+							numberOfMines++;
+						if (this.board[row - 1][column].isHasMine() == true)
+							numberOfMines++;
+						if (this.board[row - 1][column + 1].isHasMine() == true)
+							numberOfMines++;
+					}
+
+					// if cell location != leftColumn, count the one cell to left
+					if (this.board[row][column].isLeftColumn() != true) {
+						if (this.board[row][column - 1].isHasMine() == true)
+							numberOfMines++;
+					}
+
+					// if cell location != rightColumn, count the one cell to right
+					if (this.board[row][column].isRightColumn() != true) {
+						if (this.board[row][column + 1].isHasMine() == true)
+							numberOfMines++;
+					}
+
+					this.board[row][column].setNumberOfSurroundingMines(numberOfMines);
+					numberOfMines = 0;
+				}
+			}
+		}
+	}
+
+	public void revealNumberOfSurroundingMines(Cell[][] board) {
+		for (int row = 0; row < this.board.length; row++) {
+			for (int column = 0; column < this.board[row].length; column++) {
+
+				if (this.board[row][column].isHasMine() == false) {
+					this.board[row][column].setDisplay(String.format(" %d ", this.board[row][column].getNumberOfSurroundingMines()));
+					if(this.board[row][column].getNumberOfSurroundingMines() == 0) {
+						this.board[row][column].setDisplay("");
+					}
+				}
+
+			}
+		}
+	}
+
 	/**
 	 * prints board with columns numbers and row letters so that cells can be
 	 * referenced alpha-numerically ("B12", etc)
 	 */
 	public void printBoard(Cell[][] board) {
-		System.out.println("Running printBoard()...\n");
+		System.out.println("\n\nRunning printBoard()...\n");
 		String stringFormat = "%4s";
 
 		// print column numbers
@@ -168,11 +261,11 @@ public class Board {
 			System.out.print(String.format(stringFormat, (column + 1)));
 		}
 
-		// print rows with leading letter
+		// print rows with leading letter in two parts
 		for (int row = 0; row < board.length; row++) {
-			// print the row Letter
-			System.out.print(String.format("\n"+stringFormat, alphabet[row]));
-			// print cells
+			// first, print the row Letter
+			System.out.print(String.format("\n" + stringFormat, alphabet[row])+"|");
+			// next, print cells
 			for (int column = 0; column < board[row].length; column++) {
 				System.out.print(String.format(stringFormat, board[row][column].getDisplay()));
 
@@ -188,9 +281,9 @@ public class Board {
 
 				if (this.board[row][column].isHasMine() == true) {
 					numberOfMines++;
+
 				}
 			}
-
 		}
 
 		return numberOfMines;
@@ -199,14 +292,19 @@ public class Board {
 
 	public static void main(String[] args) {
 
-		Scanner scan = new Scanner(System.in);
-		boolean keepGoing = true;
+		// Scanner scan = new Scanner(System.in);
+		// boolean keepGoing = true;
 
 		System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
 
 		Board mineBoard = new Board(3); // TOFIX Specify board size
 
 		mineBoard.generateBoard();
+		mineBoard.revealMines(mineBoard.board);
+		mineBoard.printBoard(mineBoard.board);
+		mineBoard.setNumberOfSurroundingMines(mineBoard.board);
+		mineBoard.revealNumberOfSurroundingMines(mineBoard.board);
+		mineBoard.printBoard(mineBoard.board);
 		System.out.println("\n" + mineBoard.countHowManyMines(mineBoard.board));
 
 	}
