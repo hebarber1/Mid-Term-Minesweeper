@@ -18,17 +18,19 @@ public class Board {
 	private final double minePercentage = .20;
 	String[] alphabet = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O" };
 
-	Board(int boardSize) {
+	public Board(int boardSize) {
 		System.out.println("Running Board constructor...");
 		switch (boardSize) {
 		case 1:
 			System.out.println("Case 1...");
 			this.board = new Cell[SMALL_BOARD][SMALL_BOARD];
-			printBoard(this.board);
+			//fillArrayWithCells(this.board);
+			//printBoard(this.board);
 			this.boardSize = SMALL_BOARD * SMALL_BOARD;
 			break;
 
 		case 2:
+			System.out.println("Case 2...");
 			this.board = new Cell[MEDIUM_BOARD][MEDIUM_BOARD];
 			this.boardSize = MEDIUM_BOARD * MEDIUM_BOARD;
 			break;
@@ -42,8 +44,20 @@ public class Board {
 
 	}
 
-	public void generateBoard() {
+	public void fillArrayWithCells(Cell[][] board) {
+		System.out.println("Running fillArrayWithCells...");
+		
+		for (int row = 0; row < this.board.length; row++) {
+			for (int column = 0; column < this.board[row].length; column++) {
+				//System.out.println("Creating cell: " + ((row * (this.board[row].length) ) + (column +1)));
+				board[row][column] = new Cell();
+			}
+		}
+	}
 
+	public void generateBoard() {
+		System.out.println("Running generateBoard()...");
+		fillArrayWithCells(this.board);
 		placeMines(generateMines(this.boardSize));
 		initializeCells();
 		printBoard(this.board);
@@ -51,27 +65,55 @@ public class Board {
 	}
 
 	public ArrayList<Integer> generateMines(int boardsize) {
+		System.out.println("Running generateMines()...");
+		System.out.println("boardsize passed through = " + boardsize);
+		
 		int numberOfMines = (int) Math.ceil(this.minePercentage * boardSize);
 		ArrayList<Integer> locationOfMines = new ArrayList<Integer>();
 		boolean isNewMine = false;
-
+		int counter = 0;
+		
+		System.out.println("Number of mines: " + numberOfMines);
+		System.out.println("locationOfMines.size = " + locationOfMines.size()); // print size of arraylist (number of mines created)
+		
+		int random = (int) (Math.random() * boardsize + 1);
+		System.out.println("Random number 0: " + random);
+		
+		System.out.println("Adding first mine...");
+		locationOfMines.add(random);
+		
 		while (locationOfMines.size() < numberOfMines) {
-			int random = (int) (Math.random() * numberOfMines + 1);
-
+			random = (int) (Math.random() * boardsize + 1);
+			
+			System.out.println("\nRandom number "+ (counter + 1) + ": " + random);
+			
 			for (Integer mine : locationOfMines) { // loop through locationOfMine list
 				if (mine == random) { // if this random number has already been picked,
+					System.out.println("Mine = random #");
 					isNewMine = false; // it is not new a mine
 				} else {
+					System.out.println("Mine != random #");
 					isNewMine = true; // it is a new mine
 				}
 			}
 
 			if (isNewMine) { // if a new mine
+				System.out.println("Adding mine...");
 				locationOfMines.add(random); // add to list
+				System.out.println("\nMines Collected so far:");
+				for (int i = 0; i< locationOfMines.size(); i++) {
+					System.out.println(locationOfMines.get(i));
+				}
+				
+			}
+			
+			counter++;
+			if( counter > 30) {
+				break;
 			}
 		}
 
-		System.out.println(locationOfMines.size()); // print size of arraylist (number of mines created)
+		System.out.println("\nlocationOfMines.size = " + locationOfMines.size()); // print size of arraylist (number of mines created)
 		return locationOfMines;
 	}
 
@@ -83,7 +125,7 @@ public class Board {
 				for (int column = 0; column < this.board[row].length; column++) {
 
 					if (this.board[row][column].getCellNumber() == mine) {
-						this.board[row][column].hasMine = true;
+						this.board[row][column].setHasMine(true);
 					}
 				}
 			}
@@ -106,22 +148,22 @@ public class Board {
 
 				this.board[row][column].setRow(row);
 				this.board[row][column].setColumn(column);
-				this.board[row][column].setCellNumber((row + 1) * (column + 1));
+				this.board[row][column].setCellNumber(row * (this.board[row].length) + (column +1));
 
 				if (row == 0) {
-					this.board[row][column].isTopRow = true;
+					this.board[row][column].setTopRow(true);
 				}
 
 				if (row == this.board.length - 1) {
-					this.board[row][column].isBottom = true;
+					this.board[row][column].setBottomRow(true);
 				}
 
 				if (column == 0) {
-					this.board[row][column].isLeftColumn = true;
+					this.board[row][column].setLeftColumn(true);
 				}
 
 				if (column == this.board[this.board.length - 1].length) {
-					this.board[row][column].isRightColumn = true;
+					this.board[row][column].setRightColumn(true);
 				}
 			}
 		}
@@ -132,11 +174,12 @@ public class Board {
 	 * prints board with columns numbers and row letters so that cells can be
 	 * referenced alpha-numerically ("B12", etc)
 	 */
-	public void printBoard(Cell[][] board ) {
+	public void printBoard(Cell[][] board) {
 		System.out.println("Running printBoard()...");
 		String format1 = "%5s";
 
 		// print column numbers
+		System.out.print("    ");
 		for (int column = 0; column < board[0].length; column++) {
 			System.out.print(String.format(format1, (column + 1)));
 		}
@@ -144,7 +187,7 @@ public class Board {
 		// print rows with leading letter
 		for (int row = 0; row < board.length; row++) {
 			// print the row Letter
-			System.out.print(String.format("%5s", alphabet[row]));
+			System.out.print(String.format("\n%5s", alphabet[row]));
 			// print cells
 			for (int column = 0; column < board[row].length; column++) {
 				System.out.print(String.format("%5s", board[row][column].getDisplay()));
@@ -159,7 +202,7 @@ public class Board {
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
 
-				if (this.board[row][column].hasMine = true) {
+				if (this.board[row][column].isHasMine() == true) {
 					numberOfMines++;
 				}
 			}
