@@ -14,16 +14,18 @@ public class Main {
 		Cell selectedCell = new Cell("not error");
 		boolean proceed = true;
 		boolean won = false;
+		// boolean lost = false;
 
 		System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
 
 		while (keepGoing) {
+			won = false;
 
 			// Prompt the user to select from one of 3 levels.
 			System.out.println("Select your level (1/2/3): ");
 			System.out.println("1. Beginner ");
 			System.out.println("2. Intermediate ");
-			int level = Validator.getInt(scan, "3. Advanced ", 1, 3);
+			int level = Validator.getInt(scan, "3. Advanced \n", 1, 3);
 
 			// Create, generate, and display the board
 			Board mineBoard = new Board(level);
@@ -33,6 +35,8 @@ public class Main {
 
 			// Create the game engine
 			GameEngine game = new GameEngine(mineBoard);
+			mineBoard.revealMines(board);
+			printBoard(mineBoard, game);
 
 			while (!won) {
 
@@ -57,24 +61,32 @@ public class Main {
 					} else if (action.equalsIgnoreCase("Q")) {
 						game.flagCell(selectedCell, "Q");
 					} else {
-						game.uncoverCell(selectedCell);
+						won = game.uncoverCell(selectedCell);
 					}
 
 					// Refresh the board after executing user action
-					mineBoard.printBoard(board);
-					;
+					printBoard(mineBoard, game);
 
 					// Check if the user has won
-					if (won = game.hasWon()) {
+					if (game.hasWon()) {
 						System.out.println("Congratulations! You have won!");
-						keepGoing = Validator.getYOrN(scan, "Would you like to keep playing (y/n)");
+						won = game.hasWon();
 					}
 
 				}
 
 			}
+
+			keepGoing = Validator.getYOrN(scan, "Would you like to keep playing (y/n)");
+
 		}
 		System.out.println("Goodbye!");
 		scan.close();
+	}
+
+	public static void printBoard(Board board, GameEngine gameEngine) {
+		board.printBoard(board.getBoard());
+		System.out.println("   Bombs remaining: " + gameEngine.getBombFlagCount());
+		System.out.println();
 	}
 }

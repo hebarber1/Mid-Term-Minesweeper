@@ -59,7 +59,7 @@ public class Board {
 		initializeCells();
 		placeMines(generateMines(this.boardSize));
 		setNumberOfSurroundingMines(this.board);
-		printBoard(this.board);
+		//printBoard(this.board);
 
 	}
 
@@ -155,7 +155,7 @@ public class Board {
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
 				if (this.board[row][column].isHasMine() == true) {
-					this.board[row][column].setDisplay("[*]");
+					this.board[row][column].setDisplay("[Ò]");
 				}
 
 			}
