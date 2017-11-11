@@ -23,7 +23,7 @@ public class GameEngine {
 		if (typeOfFlag == "F") {
 			if (cellSelected.getFlag() == null) {
 				cellSelected.setFlag(Flag.BOMB);
-				cellSelected.setDisplay(" ⚑ ");
+				cellSelected.setDisplay(" ! ");
 				numOfMineFlagsRemaining--;
 			} else {
 				cellSelected.setFlag(null);

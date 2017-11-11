@@ -42,13 +42,13 @@ public class Main {
 				// Begin game and prompt the user to choose a cell in the form of "A1"
 				do {
 					String selectedCellName = Console.chooseCell();
-					System.out.println("Selected cell " + selectedCellName + "\n");
+					System.out.println("\nSelected cell '" + selectedCellName.toUpperCase() +"'");
 					selectedCell = mineBoard.selectCell(selectedCellName);
 				} while (selectedCell.getCellName().equals("error"));
 
 				// Prompt the user to enter an action for the cell
 				String action = Console.chooseAction();
-				System.out.println("Action: " + action);
+				System.out.println("\nAction: " + action);
 
 				if (proceed) {
 					// Call a method depending on the action selected

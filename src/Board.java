@@ -152,7 +152,7 @@ public class Board {
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
 				if (this.board[row][column].isHasMine() == true) {
-					this.board[row][column].setDisplay("[Ò]");
+					this.board[row][column].setDisplay("[*]");
 				}
 
 			}
@@ -247,7 +247,7 @@ public class Board {
 
 		// print column numbers
 		System.out.println("\n");
-		System.out.print("   ");
+		System.out.print("    ");
 		for (int column = 0; column < board[0].length; column++) {
 			System.out.print(String.format(stringFormat, (column + 1)));
 		}

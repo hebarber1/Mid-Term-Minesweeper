@@ -9,13 +9,13 @@ public class Console {
 
 	public static String chooseCell() {
 		Scanner sc = new Scanner(System.in);		
-		String cellName = Validator.getString(sc, "\nPlease choose a cell: (row/column, i.e. 'A1') ");
+		String cellName = Validator.getString(sc, "Please choose a cell: (row/column, i.e. 'A1') ");
 			return cellName;	
 		}
 	
 	public static String chooseAction() {
 		Scanner sc = new Scanner(System.in);		
-		String actionChosen = Validator.getChar(sc, "\nChoose action F(flag as mine), Q(flag as Question), or U(Uncover)","F","Q","U" );
+		String actionChosen = Validator.getChar(sc, "\nChoose action F (flag as mine), ? (flag as Question), or U (Uncover) ","F","?","U" );
 			return actionChosen;	
 	}
 	
