@@ -34,7 +34,8 @@ public class Main {
 
 			// Create the game engine
 			GameEngine game = new GameEngine(mineBoard);
-			//mineBoard.revealMines(board);
+			mineBoard.revealMines(board);
+			mineBoard.revealNumberOfSurroundingMines(board);;
 			printBoard(mineBoard, game);
 
 			while (!won) {

@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-
 public class Board {
 	// 2D array representing the board
 	private Cell[][] board;
@@ -15,8 +14,8 @@ public class Board {
 
 	// percentage of board to contain mines
 	private final double minePercentage = .20;
-	
-	//alphabet string to help with labeling boad
+
+	// alphabet string to help with labeling boad
 	String[] alphabet = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O" };
 
 	public Board(int boardSize) {
@@ -41,11 +40,10 @@ public class Board {
 
 	}
 
-	
 	public void fillArrayWithCells(Cell[][] board) {
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
-				
+
 				board[row][column] = new Cell();
 			}
 		}
@@ -53,24 +51,24 @@ public class Board {
 
 	public void generateBoard() {
 		fillArrayWithCells(this.board);
-		initializeCells(); //starting values of cells
+		initializeCells(); // starting values of cells
 		placeMines(generateMines(this.boardSize)); // creates a list of mines and places them on the board
 		setNumberOfSurroundingMines(this.board); // tells the board the number of mines each cell contains
 	}
 
 	/*
-	 * takes in the size of the board, returns a list of how 
-	 * many mines there should be and where they should be placed on the board
+	 * takes in the size of the board, returns a list of how many mines there should
+	 * be and where they should be placed on the board
 	 */
 	public ArrayList<Integer> generateMines(int boardsize) {
-		//calculates how many mines we want on the board
+		// calculates how many mines we want on the board
 		int numberOfMines = (int) Math.ceil(this.minePercentage * boardSize);
-		
+
 		ArrayList<Integer> locationOfMines = new ArrayList<Integer>();
-		boolean isNewMine = false; //whether or not to add random number to list
+		boolean isNewMine = false; // whether or not to add random number to list
 
 		int random = (int) (Math.random() * boardsize + 1);
-		
+
 		// add first random number so Array isn't null and the while loop isn't skipped
 		locationOfMines.add(random);
 
@@ -121,6 +119,7 @@ public class Board {
 		// set row, column, and cell number
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
+				
 				cellNumber = row * (this.board[row].length) + (column + 1);
 
 				this.board[row][column].setRow(row);
@@ -140,7 +139,7 @@ public class Board {
 					this.board[row][column].setLeftColumn(true);
 				}
 
-				if (column == this.board[this.board.length - 1].length) {
+				if (column == this.board[this.board.length - 1].length - 1) {
 					this.board[row][column].setRightColumn(true);
 				}
 			}
@@ -160,46 +159,65 @@ public class Board {
 	}
 
 	public void setNumberOfSurroundingMines(Cell[][] board) {
-
+		System.out.println("Entering setNumberOf Surrounding Mines...");
 		int numberOfMines = 0;
 
-		for (int row = 1; row < board.length - 1; row++) {
-			for (int column = 1; column < board[row].length -1; column++) {
+		for (int row = 0; row < board.length; row++) {
+			for (int column = 0; column < board[row].length ; column ++) {
 
 				if (this.board[row][column].isTopRow() && this.board[row][column].isLeftColumn()) {
-	/*				System.out.println(this.board[row][column].getCellName());
-					System.out.println("top left");*/
-				} else if (this.board[row][column].isTopRow() && this.board[row][column].isRightColumn()) {
-		/*			System.out.println(this.board[row][column].getCellName());
-					System.out.println("top right");*/
-				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isLeftColumn()) {
-	/*				System.out.println(this.board[row][column].getCellName());
-					System.out.println("bottom left");*/
-				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isRightColumn()) {
-					/*System.out.println(this.board[row][column].getCellName());
-					System.out.println("bottom right");*/
-				} else {
 
-					// if cell location != top, count the 3 cells with mines below
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("top left");
+
+				} else if (this.board[row][column].isTopRow() && this.board[row][column].isRightColumn()) {
+
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("top right");
+
+				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isLeftColumn()) {
+
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("bottom left");
+
+				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isRightColumn()) {
+
+					System.out.println(this.board[row][column].getCellName());
+					System.out.println("bottom right");
+
+				} else {
+					System.out.println("Else loop, row:" + row + " col: " + column);
+					// if cell location != top, count the 3 cells with mines above
 					if (this.board[row][column].isTopRow() != true) {
-					//	System.out.println("location != top..");
-						if (this.board[row - 1][column - 1].isHasMine() == true)
-							numberOfMines++;
+
+						if (this.board[row][column].isLeftColumn() != true) // if not left column
+							if (this.board[row - 1][column - 1].isHasMine() == true) // check bottom left
+								numberOfMines++;
+
 						if (this.board[row - 1][column].isHasMine() == true)
 							numberOfMines++;
-						if (this.board[row - 1][column + 1].isHasMine() == true)
-							numberOfMines++;
-					//	System.out.println("Number of mines: " + numberOfMines);
+
+						if (this.board[row][column].isRightColumn() != true) // if not right column
+							if (this.board[row - 1][column + 1].isHasMine() == true) // check bottom right
+								numberOfMines++;
+
 					}
 
-					// if cell location != bottom, count the 3 cells with mines above
+					// if cell location != bottom, count the 3 cells with mines below
 					if (this.board[row][column].isBottomRow() != true) {
-						if (this.board[row + 1][column - 1].isHasMine() == true)
-							numberOfMines++;
+
+						if (this.board[row][column].isLeftColumn() != true) // if not left column
+							if (this.board[row + 1][column - 1].isHasMine() == true) // check bottom left
+								numberOfMines++;
+
 						if (this.board[row + 1][column].isHasMine() == true)
 							numberOfMines++;
-						if (this.board[row + 1][column + 1].isHasMine() == true)
-							numberOfMines++;
+
+						if (this.board[row][column].isRightColumn() != true) { // if not right column
+							if (this.board[row + 1][column + 1].isHasMine() == true) {// check bottom right
+								numberOfMines++;
+							}
+						}
 					}
 
 					// if cell location != leftColumn, count the one cell to left
@@ -210,7 +228,7 @@ public class Board {
 
 					// if cell location != rightColumn, count the one cell to right
 					if (this.board[row][column].isRightColumn() != true) {
-						if (this.board[row][column + 1].isHasMine() == true)
+						if (this.board[row][column].isHasMine() == true)
 							numberOfMines++;
 					}
 
@@ -242,7 +260,7 @@ public class Board {
 	 * referenced alpha-numerically ("B12", etc)
 	 */
 	public void printBoard(Cell[][] board) {
-	//	System.out.println("\n\nRunning printBoard()...\n");
+		// System.out.println("\n\nRunning printBoard()...\n");
 		String stringFormat = "%4s";
 
 		// print column numbers
@@ -283,7 +301,7 @@ public class Board {
 	public Cell selectCell(String cellName) {
 		Cell error = new Cell();
 		error.setCellName("error");
-		
+
 		for (int row = 0; row < this.board.length; row++) {
 			for (int column = 0; column < this.board[row].length; column++) {
 
@@ -305,24 +323,24 @@ public class Board {
 		this.board = board;
 	}
 
-	/*public static void main(String[] args) {
-
-		// Scanner scan = new Scanner(System.in);
-		// boolean keepGoing = true;
-
-		System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
-
-		Board mineBoard = new Board(3); // TOFIX Specify board size
-
-		mineBoard.generateBoard();
-		mineBoard.revealMines(mineBoard.board);
-		mineBoard.printBoard(mineBoard.board);
-		mineBoard.setNumberOfSurroundingMines(mineBoard.board);
-		mineBoard.revealNumberOfSurroundingMines(mineBoard.board);
-		mineBoard.printBoard(mineBoard.board);
-		System.out.println("\n" + mineBoard.countHowManyMines(mineBoard.board));
-
-	}*/
+	/*
+	 * public static void main(String[] args) {
+	 * 
+	 * // Scanner scan = new Scanner(System.in); // boolean keepGoing = true;
+	 * 
+	 * System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
+	 * 
+	 * Board mineBoard = new Board(3); // TOFIX Specify board size
+	 * 
+	 * mineBoard.generateBoard(); mineBoard.revealMines(mineBoard.board);
+	 * mineBoard.printBoard(mineBoard.board);
+	 * mineBoard.setNumberOfSurroundingMines(mineBoard.board);
+	 * mineBoard.revealNumberOfSurroundingMines(mineBoard.board);
+	 * mineBoard.printBoard(mineBoard.board); System.out.println("\n" +
+	 * mineBoard.countHowManyMines(mineBoard.board));
+	 * 
+	 * }
+	 */
 	// CONSTRUCTOR
 	// Board constructor to initialize a board of the size specified by the user
 	// The constructor will call a method to generate the mines and calculate
