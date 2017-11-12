@@ -15,7 +15,7 @@ public class Board {
 	// percentage of board to contain mines
 	private final double minePercentage = .20;
 
-	// alphabet string to help with labeling boad
+	// alphabet string to help with labeling board
 	String[] alphabet = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O" };
 
 	public Board(int boardSize) {
@@ -302,35 +302,5 @@ public class Board {
 	public void setBoard(Cell[][] board) {
 		this.board = board;
 	}
-
-	/*
-	 * public static void main(String[] args) {
-	 * 
-	 * // Scanner scan = new Scanner(System.in); // boolean keepGoing = true;
-	 * 
-	 * System.out.println("Welcome to Ti-Yas-Man Minesweeper!\n");
-	 * 
-	 * Board mineBoard = new Board(3); // TOFIX Specify board size
-	 * 
-	 * mineBoard.generateBoard(); mineBoard.revealMines(mineBoard.board);
-	 * mineBoard.printBoard(mineBoard.board);
-	 * mineBoard.setNumberOfSurroundingMines(mineBoard.board);
-	 * mineBoard.revealNumberOfSurroundingMines(mineBoard.board);
-	 * mineBoard.printBoard(mineBoard.board); System.out.println("\n" +
-	 * mineBoard.countHowManyMines(mineBoard.board));
-	 * 
-	 * }
-	 */
-	// CONSTRUCTOR
-	// Board constructor to initialize a board of the size specified by the user
-	// The constructor will call a method to generate the mines and calculate
-	// adjacent mines
-
-	// METHOD generateBoard() - This method will randomly generate mines and place
-	// them on the board. It will also calculate the
-	// mines around each cell and update the board/cells
-
-	// METHOD displayBoard() - Method to display the status of the board. When the
-	// game starts the board is empty or covered
 
 }

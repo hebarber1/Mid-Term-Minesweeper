@@ -52,7 +52,8 @@ public class GameEngine {
 		if (cellSelected.isHasMine()) {
 			uncoverAllCells();
 			System.out.println("\nGame over! \t Game over! \t Game over!");
-			System.out.println("\nGame over! \t Game over! \t Game over!");
+			System.out.println("\tGame over! \t Game over! \t Game over!");
+			System.out.println("\t\tGame over! \t Game over! \t Game over!");
 			return true;
 
 		} else if (cellSelected.getNumberOfSurroundingMines() >= 1) {
@@ -64,7 +65,7 @@ public class GameEngine {
 			cellSelected.changeCover();
 			if (cellSelected.getCovered() == false)
 				cellSelected.setDisplay("");
-			//zeroMinesAction(cellSelected, mineBoard.getBoard());
+			zeroMineActionAllDirections(cellSelected, mineBoard.getBoard());
 
 		}
 		return false;
@@ -88,52 +89,277 @@ public class GameEngine {
 		mineBoard.revealNumberOfSurroundingMines(mineBoard.getBoard());
 	}
 
-	public void zeroMinesAction(Cell cell, Cell[][] board) {
+	public void zeroMinesActionRight(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionRight method...");
+
 		int row = cell.getRow();
+		int nextRow = row;
 		int col = cell.getCol();
-		int counter = 0;
+		int nextCol = col + 1;
+		
+
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+		/*boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();
+*/
+		// int counter = 0;
 
 		// go right
-		if (board[row][col + 1].isRightColumn() != true) {
-			if (board[row][col + 1].getNumberOfSurroundingMines() > 0) {
-				board[row][col + 1].setCovered(false);
-				board[row][col + 1].setDisplay("" + board[row][col + 1].getNumberOfSurroundingMines() + " ");
-			} else {
-				board[row][col + 1].setCovered(false);
-				board[row][col + 1].setDisplay("");
-				zeroMinesAction(board[row][col + 1], board);
-			}
-		} else {
-			if (board[row][col + 1].getNumberOfSurroundingMines() > 0) {
-				board[row][col + 1].setCovered(false);
-				board[row][col + 1].setDisplay("" + board[row][col + 1].getNumberOfSurroundingMines() + " ");
-			} else {
-				board[row][col + 1].setCovered(false);
-				board[row][col + 1].setDisplay("");
-			}
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		} else if (nextRow < board.length || nextCol < board[row].length) {
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionRight(nextCell, board);
 		}
+
+	}
+
+	public void zeroMinesActionLeft(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionLeft method...");
+
+		int row = cell.getRow();
+		int nextRow = row;
+		int col = cell.getCol();
+		int nextCol = col - 1;
+		//Cell nextCell = board[nextRow][nextCol];
+
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+		/*boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();
+		*/
+		System.out.println("Is current cell on edge?" + isOnEdge);
+
+		// go right
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		}  else if (nextRow < board.length || nextCol < board[row].length) {
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionLeft(nextCell, board);
+		}
+	}
+
+	public void zeroMinesActionDown(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionDown method...");
+
+		int row = cell.getRow();
+		int nextRow = row + 1;
+		int col = cell.getCol();
+		int nextCol = col;
 		
-		// go left
-				if (board[row][col - 1].isLeftColumn() != true) {
-					if (board[row][col - 1].getNumberOfSurroundingMines() > 0) {
-						board[row][col - 1].setCovered(false);
-						board[row][col - 1].setDisplay("" + board[row][col - 1].getNumberOfSurroundingMines() + " ");
-					} else {
-						board[row][col - 1].setCovered(false);
-						board[row][col - 1].setDisplay("");
-						zeroMinesAction(board[row][col - 1], board);
-					}
-				} else {
-					if (board[row][col - 1].getNumberOfSurroundingMines() > 0) {
-						board[row][col - 1].setCovered(false);
-						board[row][col - 1].setDisplay("" + board[row][col - 1].getNumberOfSurroundingMines() + " ");
-					} else {
-						board[row][col - 1].setCovered(false);
-						board[row][col - 1].setDisplay("");
-					}
-				}
+
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+		/*boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();
+*/
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		}  else if (nextRow < board.length && nextCol < board[row].length && nextRow >= 0 && nextCol >= 0) {
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionDown(nextCell, board);
+		}
+	}
+
+	public void zeroMinesActionUp(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionUp method...");
+		
+		int row = cell.getRow();
+		int nextRow = row - 1;
+		int col = cell.getCol();
+		int nextCol = col;
+
+		System.out.println(cell.getCellName() + " row: " + row + " column: " + col);
 
 		
-		
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+		/*boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();
+		*/
+		System.out.println("Is current cell on edge? " + isOnEdge);
+
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		}  else if (nextRow < board.length && nextCol < board[row].length && nextRow >= 0 && nextCol >= 0) {
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionUp(nextCell, board);
+		}
 	}
+
+	public void zeroMinesActionUpLeft(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionUpLeft method...");
+
+		int row = cell.getRow();
+		int nextRow = row - 1;
+		int col = cell.getCol();
+		int nextCol = col - 1;
+//		Cell nextCell = board[nextRow][nextCol];
+
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+		/*boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();
+*/
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		} else if (nextRow < board.length || nextCol < board[row].length){
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionUpLeft(nextCell, board);
+		}
+	}
+
+	public void zeroMinesActionUpRight(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionUpRight method...");
+
+		int row = cell.getRow();
+		int nextRow = row - 1;
+		int col = cell.getCol();
+		int nextCol = col + 1;
+//		Cell nextCell = board[nextRow][nextCol];
+
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+	/*	boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();*/
+
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		}  else if (nextRow < board.length || nextCol < board[row].length) {
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionUpRight(nextCell, board);
+			//zeroMineActionAllDirections(nextCell, board);
+		}
+	}
+
+	public void zeroMinesActionDownLeft(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionDownLeft method...");
+
+		int row = cell.getRow();
+		int nextRow = row + 1;
+		int col = cell.getCol();
+		int nextCol = col - 1;
+//		Cell nextCell = board[nextRow][nextCol];
+
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+	/*	boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();
+*/
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		} else if (nextRow < board.length || nextCol < board[row].length) {
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionDownLeft(nextCell, board);
+			//zeroMineActionAllDirections(nextCell, board);
+		}
+	}
+
+	public void zeroMinesActionDownRight(Cell cell, Cell[][] board) {
+		System.out.println("\nZeroMinesActionDownRight method...");
+
+		int row = cell.getRow();
+		int nextRow = row + 1;
+		int col = cell.getCol();
+		int nextCol = col + 1;
+//		Cell nextCell = board[nextRow][nextCol];
+
+		boolean isOnEdge = cell.isBottomRow() | cell.isTopRow() | cell.isLeftColumn() | cell.isRightColumn();
+		/*boolean isNextOnEdge = nextCell.isBottomRow() | nextCell.isTopRow() | nextCell.isLeftColumn()
+				| nextCell.isRightColumn();*/
+
+		if (cell.getNumberOfSurroundingMines() > 0) {
+			System.out.println("greater than 0 loop");
+			cell.setCovered(false);
+			cell.setDisplay("" + cell.getNumberOfSurroundingMines() + " ");
+		} else if (isOnEdge) {
+			System.out.println("is on edge loop");
+			cell.setCovered(false);
+			cell.setDisplay("");
+		} else if (nextRow < board.length || nextCol < board[row].length) {
+			System.out.println("calling recursive loop");
+			System.out.println("row : " + row + " col : " + col);
+			Cell nextCell = board[nextRow][nextCol];
+			cell.setCovered(false);
+			cell.setDisplay("");
+			zeroMinesActionDownRight(nextCell, board);
+			//zeroMineActionAllDirections(nextCell, board);
+		}
+	}
+	
+	public void zeroMineActionAllDirections (Cell cell, Cell[][] board) {
+		zeroMinesActionUp(cell, board);
+		zeroMinesActionDown(cell, board);
+		zeroMinesActionRight(cell, board);
+		zeroMinesActionLeft(cell, board);
+		zeroMinesActionUpLeft(cell, board);
+		zeroMinesActionUpRight(cell, board);
+		zeroMinesActionDownLeft(cell, board);
+		zeroMinesActionDownRight(cell, board);
+	}
+
 }
