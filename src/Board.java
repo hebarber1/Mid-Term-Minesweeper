@@ -164,29 +164,7 @@ public class Board {
 
 		for (int row = 0; row < board.length; row++) {
 			for (int column = 0; column < board[row].length ; column ++) {
-
-				if (this.board[row][column].isTopRow() && this.board[row][column].isLeftColumn()) {
-
-					System.out.println(this.board[row][column].getCellName());
-					System.out.println("top left");
-
-				} else if (this.board[row][column].isTopRow() && this.board[row][column].isRightColumn()) {
-
-					System.out.println(this.board[row][column].getCellName());
-					System.out.println("top right");
-
-				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isLeftColumn()) {
-
-					System.out.println(this.board[row][column].getCellName());
-					System.out.println("bottom left");
-
-				} else if (this.board[row][column].isBottomRow() && this.board[row][column].isRightColumn()) {
-
-					System.out.println(this.board[row][column].getCellName());
-					System.out.println("bottom right");
-
-				} else {
-					System.out.println("Else loop, row:" + row + " col: " + column);
+				
 					// if cell location != top, count the 3 cells with mines above
 					if (this.board[row][column].isTopRow() != true) {
 
@@ -228,7 +206,7 @@ public class Board {
 
 					// if cell location != rightColumn, count the one cell to right
 					if (this.board[row][column].isRightColumn() != true) {
-						if (this.board[row][column].isHasMine() == true)
+						if (this.board[row][column + 1].isHasMine() == true)
 							numberOfMines++;
 					}
 
@@ -236,7 +214,7 @@ public class Board {
 					numberOfMines = 0;
 				}
 			}
-		}
+		
 	}
 
 	public void revealNumberOfSurroundingMines(Cell[][] board) {
@@ -269,6 +247,8 @@ public class Board {
 		for (int column = 0; column < board[0].length; column++) {
 			System.out.print(String.format(stringFormat, (column + 1)));
 		}
+		
+		
 
 		// print rows with leading letter in two parts
 		for (int row = 0; row < board.length; row++) {

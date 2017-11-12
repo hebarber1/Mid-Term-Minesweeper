@@ -54,14 +54,18 @@ public class GameEngine {
 			System.out.println("\nGame over! \t Game over! \t Game over!");
 			System.out.println("\nGame over! \t Game over! \t Game over!");
 			return true;
+
 		} else if (cellSelected.getNumberOfSurroundingMines() >= 1) {
 			cellSelected.changeCover();
 			if (cellSelected.getCovered() == false)
 				cellSelected.setDisplay("" + cellSelected.getNumberOfSurroundingMines() + " ");
+
 		} else if (cellSelected.getNumberOfSurroundingMines() == 0) {
 			cellSelected.changeCover();
 			if (cellSelected.getCovered() == false)
 				cellSelected.setDisplay("");
+			//zeroMinesAction(cellSelected, mineBoard.getBoard());
+
 		}
 		return false;
 	}
@@ -82,5 +86,54 @@ public class GameEngine {
 	public void uncoverAllCells() {
 		mineBoard.revealMines(mineBoard.getBoard());
 		mineBoard.revealNumberOfSurroundingMines(mineBoard.getBoard());
+	}
+
+	public void zeroMinesAction(Cell cell, Cell[][] board) {
+		int row = cell.getRow();
+		int col = cell.getCol();
+		int counter = 0;
+
+		// go right
+		if (board[row][col + 1].isRightColumn() != true) {
+			if (board[row][col + 1].getNumberOfSurroundingMines() > 0) {
+				board[row][col + 1].setCovered(false);
+				board[row][col + 1].setDisplay("" + board[row][col + 1].getNumberOfSurroundingMines() + " ");
+			} else {
+				board[row][col + 1].setCovered(false);
+				board[row][col + 1].setDisplay("");
+				zeroMinesAction(board[row][col + 1], board);
+			}
+		} else {
+			if (board[row][col + 1].getNumberOfSurroundingMines() > 0) {
+				board[row][col + 1].setCovered(false);
+				board[row][col + 1].setDisplay("" + board[row][col + 1].getNumberOfSurroundingMines() + " ");
+			} else {
+				board[row][col + 1].setCovered(false);
+				board[row][col + 1].setDisplay("");
+			}
+		}
+		
+		// go left
+				if (board[row][col - 1].isLeftColumn() != true) {
+					if (board[row][col - 1].getNumberOfSurroundingMines() > 0) {
+						board[row][col - 1].setCovered(false);
+						board[row][col - 1].setDisplay("" + board[row][col - 1].getNumberOfSurroundingMines() + " ");
+					} else {
+						board[row][col - 1].setCovered(false);
+						board[row][col - 1].setDisplay("");
+						zeroMinesAction(board[row][col - 1], board);
+					}
+				} else {
+					if (board[row][col - 1].getNumberOfSurroundingMines() > 0) {
+						board[row][col - 1].setCovered(false);
+						board[row][col - 1].setDisplay("" + board[row][col - 1].getNumberOfSurroundingMines() + " ");
+					} else {
+						board[row][col - 1].setCovered(false);
+						board[row][col - 1].setDisplay("");
+					}
+				}
+
+		
+		
 	}
 }
